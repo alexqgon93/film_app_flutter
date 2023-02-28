@@ -18,6 +18,8 @@ class Movie {
     required this.voteCount,
   });
 
+  String? heroId;
+
   get fullPosterImg => posterPath != null
       ? 'https://image.tmdb.org/t/p/w500$posterPath'
       : 'https://i.stack.imgur.com/GNhxO.png';

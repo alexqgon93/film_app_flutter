@@ -1,3 +1,4 @@
+import 'package:film_app_flutter/models/models.dart';
 import 'package:film_app_flutter/providers/movies_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class CastingCards extends StatelessWidget {
               child: const CupertinoActivityIndicator(),
             );
           }
-          final cast = snapshot.data!;
+          final List<Cast> cast = snapshot.data!;
 
           return Container(
             margin: const EdgeInsets.only(bottom: 30),
@@ -29,7 +30,7 @@ class CastingCards extends StatelessWidget {
             child: ListView.builder(
               itemCount: 10,
               scrollDirection: Axis.horizontal,
-              itemBuilder: (_, int index) => _CartCard(),
+              itemBuilder: (_, int index) => _CartCard(actor: cast[index]),
             ),
           );
         });
@@ -37,6 +38,9 @@ class CastingCards extends StatelessWidget {
 }
 
 class _CartCard extends StatelessWidget {
+  final Cast actor;
+
+  const _CartCard({super.key, required this.actor});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,17 +51,17 @@ class _CartCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: const FadeInImage(
-              placeholder: AssetImage('assets/no-image.jpg'),
-              image: NetworkImage('https://via.placeholder.com/150x300'),
+            child: FadeInImage(
+              placeholder: const AssetImage('assets/no-image.jpg'),
+              image: NetworkImage(actor.fullProfilePath),
               width: 100,
               height: 140,
               fit: BoxFit.cover,
             ),
           ),
           const SizedBox(height: 5),
-          const Text(
-            'actor.name',
+          Text(
+            actor.name,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
